@@ -1,4 +1,5 @@
 def solve(board):
+
     def convertStringToBoard(board):
         row = 9
         col = 9
@@ -9,6 +10,7 @@ def solve(board):
 
         for r in range(row):
             convertedBoard.append([])
+
             for c in range(col):
                 convertedBoard[r].append(board[offset])
                 offset = offset + 1
@@ -16,7 +18,6 @@ def solve(board):
         return convertedBoard
 
     def convertBoardToString(solution):
-
         result = ""
 
         row = len(solution)
@@ -89,6 +90,7 @@ def solve(board):
                         
                 else:
                     continue
+                    
                 break
 
         solution = convertedBoard
