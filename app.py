@@ -8,11 +8,7 @@ def sudoku():
     data = request.get_json()
     board = data["board"]
 
-    convertedBoard = convertStringToBoard(board)
-
-    solution = solve(convertedBoard)
-
-    result = convertBoardToString(solution)
+    result = solve(board)
     
     return jsonify({
         "board": result

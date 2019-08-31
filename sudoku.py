@@ -1,96 +1,104 @@
-def convertStringToBoard(board):
-    row = 9
-    col = 9
-
-    convertedBoard = []
-
-    offset = 0
-
-    for r in range(row):
-        convertedBoard.append([])
-        for c in range(col):
-            convertedBoard[r].append(board[offset])
-            offset = offset + 1
-
-    return convertedBoard
-
-def solve(convertedBoard):
-
-    def isInRow(listOfPossibleValues, convertedBoard, indexRow):
+def solve(board):
+    def convertStringToBoard(board):
+        row = 9
         col = 9
 
-        for c in range(col):
-            if convertedBoard[indexRow][c] in listOfPossibleValues:
-                listOfPossibleValues.remove(convertedBoard[indexRow][c])
+        convertedBoard = []
 
-        return listOfPossibleValues
-
-    def isInCol(listOfPossibleValues, convertedBoard, indexCol):
-        row = 9
+        offset = 0
 
         for r in range(row):
-            if convertedBoard[r][indexCol] in listOfPossibleValues:
-                listOfPossibleValues.remove(convertedBoard[r][indexCol])
+            convertedBoard.append([])
+            for c in range(col):
+                convertedBoard[r].append(board[offset])
+                offset = offset + 1
 
-        return listOfPossibleValues
+        return convertedBoard
 
-    def isInBox(listOfPossibleValues, convertedBoard, indexRow, indexCol):
-        row = indexRow - indexRow % 3
-        col = indexCol - indexCol % 3
+    def convertBoardToString(solution):
 
-        for r in range(row, row + 3):
-            for c in range(col, col + 3):
-                if convertedBoard[r][c] in listOfPossibleValues:
-                    listOfPossibleValues.remove(convertedBoard[r][c])
+        result = ""
 
-        return listOfPossibleValues
-
-    isThereEmptyCell = True
-
-    while isThereEmptyCell:
-        row = len(convertedBoard)
-        col = len(convertedBoard[0])
+        row = len(solution)
+        col = len(solution[0])
 
         for r in range(row):
             for c in range(col):
-                if convertedBoard[r][c] == "0":
-                    indexRow = r
-                    indexCol = c
+                result = result + solution[r][c]
 
-                    listOfPossibleValues = ["1","2","3","4","5","6","7","8","9"]
+        return result
 
-                    listOfPossibleValues = isInRow(listOfPossibleValues, convertedBoard, indexRow)
+    def check(convertedBoard):
 
-                    listOfPossibleValues = isInCol(listOfPossibleValues, convertedBoard, indexCol)
+        def isInRow(listOfPossibleValues, convertedBoard, indexRow):
+            col = 9
 
-                    listOfPossibleValues = isInBox(listOfPossibleValues, convertedBoard, indexRow, indexCol)
+            for c in range(col):
+                if convertedBoard[indexRow][c] in listOfPossibleValues:
+                    listOfPossibleValues.remove(convertedBoard[indexRow][c])
 
-                    if len(listOfPossibleValues) == 1:
-                        convertedBoard[indexRow][indexCol] = listOfPossibleValues[0]
-                     
-                        break
+            return listOfPossibleValues
 
-                if r == 8 and c == 8:
-                    isThereEmptyCell = False
-                    
-            else:
-                continue
-            break
+        def isInCol(listOfPossibleValues, convertedBoard, indexCol):
+            row = 9
 
-    solution = convertedBoard
+            for r in range(row):
+                if convertedBoard[r][indexCol] in listOfPossibleValues:
+                    listOfPossibleValues.remove(convertedBoard[r][indexCol])
 
-    return solution
+            return listOfPossibleValues
 
-def convertBoardToString(solution):
+        def isInBox(listOfPossibleValues, convertedBoard, indexRow, indexCol):
+            row = indexRow - indexRow % 3
+            col = indexCol - indexCol % 3
 
-    result = ""
+            for r in range(row, row + 3):
+                for c in range(col, col + 3):
+                    if convertedBoard[r][c] in listOfPossibleValues:
+                        listOfPossibleValues.remove(convertedBoard[r][c])
 
-    row = len(solution)
-    col = len(solution[0])
+            return listOfPossibleValues
 
-    for r in range(row):
-        for c in range(col):
-            result = result + solution[r][c]
+        isThereEmptyCell = True
+
+        while isThereEmptyCell:
+            row = len(convertedBoard)
+            col = len(convertedBoard[0])
+
+            for r in range(row):
+                for c in range(col):
+                    if convertedBoard[r][c] == "0":
+                        indexRow = r
+                        indexCol = c
+
+                        listOfPossibleValues = ["1","2","3","4","5","6","7","8","9"]
+
+                        listOfPossibleValues = isInRow(listOfPossibleValues, convertedBoard, indexRow)
+
+                        listOfPossibleValues = isInCol(listOfPossibleValues, convertedBoard, indexCol)
+
+                        listOfPossibleValues = isInBox(listOfPossibleValues, convertedBoard, indexRow, indexCol)
+
+                        if len(listOfPossibleValues) == 1:
+                            convertedBoard[indexRow][indexCol] = listOfPossibleValues[0]
+                        
+                            break
+
+                    if r == 8 and c == 8:
+                        isThereEmptyCell = False
+                        
+                else:
+                    continue
+                break
+
+        solution = convertedBoard
+
+        return solution
+
+    convertedBoard = convertStringToBoard(board)
+
+    solution = check(convertedBoard)
+
+    result = convertBoardToString(solution)
 
     return result
-
